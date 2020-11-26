@@ -10,10 +10,4 @@ public class MenuControllerScript : MonoBehaviour {
         // Initialise the list viewer
         SceneManager.LoadScene("ListViewer");
     }
-
-    public void AddEntryClicked()
-    {
-        // Initialise new entry
-        SceneManager.LoadScene("AddEntry");
-    }
 }

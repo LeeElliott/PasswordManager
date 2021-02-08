@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/ListViewer.unity
+- path: Assets/Scenes/Decoy.unity
   isLoaded: 1
   isActive: 1

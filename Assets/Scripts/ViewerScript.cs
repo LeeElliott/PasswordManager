@@ -53,15 +53,15 @@ public class ViewerScript : MonoBehaviour
      * Zp_UA"\vx<N
      * Wk£I)j$
      */
-    public char[] alphabet = new char[95]{
+    public char[] alphabet = new char[93]{
         (char)0x5B, (char)0x38, (char)0x3B, (char)0x21, (char)0x2F, (char)0x3A, (char)0x47, (char)0x26, (char)0x67, (char)0x20, (char)0x3F,
         (char)0x7D, (char)0x2D, (char)0x48, (char)0x6D, (char)0x36, (char)0x75, (char)0x33, (char)0x31, (char)0x56, (char)0x5D, (char)0x59,
         (char)0x73, (char)0x58, (char)0x25, (char)0x62, (char)0x7B, (char)0x64, (char)0x69, (char)0x7E, (char)0x77, (char)0x6C, (char)0x61,
         (char)0x50, (char)0x34, (char)0x46, (char)0x74, (char)0x63, (char)0x35, (char)0x39, (char)0x42, (char)0x4F, (char)0x5E, (char)0x52,
         (char)0x79, (char)0x6F, (char)0x28, (char)0x32, (char)0x2E, (char)0x53, (char)0x54, (char)0x4C, (char)0x3D, (char)0x6E, (char)0x37,
         (char)0x51, (char)0x4B, (char)0x65, (char)0x68, (char)0x4D, (char)0x7A, (char)0x30, (char)0x7C, (char)0x66, (char)0x2A, (char)0x71,
-        (char)0x43, (char)0x23, (char)0x3E, (char)0x45, (char)0x4A, (char)0x27, (char)0x2B, (char)0x72, (char)0x40, (char)0x44, (char)0x2C,
-        (char)0x5A, (char)0x70, (char)0x5F, (char)0x55, (char)0x41, (char)0x22, (char)0x5C, (char)0x76, (char)0x78, (char)0x3C, (char)0x4E,
+        (char)0x43, (char)0x23, (char)0x3E, (char)0x45, (char)0x4A, (char)0x2B, (char)0x72, (char)0x40, (char)0x44, (char)0x2C,
+        (char)0x5A, (char)0x70, (char)0x5F, (char)0x55, (char)0x41, (char)0x5C, (char)0x76, (char)0x78, (char)0x3C, (char)0x4E,
         (char)0x57, (char)0x6B, (char)0xA3, (char)0x49, (char)0x29, (char)0x6A, (char)0x36
     };
 
@@ -71,7 +71,7 @@ public class ViewerScript : MonoBehaviour
      * 
      */
     public char[] specials = new char[] {
-        (char)0x20, (char)0x21, (char)0x22, (char)0x23, (char)0x24, (char)0x25, (char)0x26, (char)0x27, (char)0x28, (char)0x29, (char)0x2A,
+        (char)0x20, (char)0x21, (char)0x23, (char)0x24, (char)0x25, (char)0x26, (char)0x28, (char)0x29, (char)0x2A,
         (char)0x2B, (char)0x2C, (char)0x2D, (char)0x2E, (char)0x2F, (char)0x3A, (char)0x3B, (char)0x3C, (char)0x3D, (char)0x3E, (char)0x3F,
         (char)0x40, (char)0x5B, (char)0x5C, (char)0x5D, (char)0x5E, (char)0x5F, (char)0x7B, (char)0x7C, (char)0x7D, (char)0x7E, (char)0xA3
     };
@@ -394,7 +394,7 @@ public class ViewerScript : MonoBehaviour
 
                     while (!accepted)
                     {
-                        nextChar = alphabet[Random.Range(0, 95)];
+                        nextChar = alphabet[Random.Range(0, 93)];
                         accepted = true;
 
                         for (int j = 0; j < specials.Length; j++)
@@ -408,7 +408,7 @@ public class ViewerScript : MonoBehaviour
                 }
                 else
                 {
-                    nextChar = alphabet[Random.Range(0, 95)];
+                    nextChar = alphabet[Random.Range(0, 93)];
                 }
 
                 newPassword += nextChar;
@@ -459,9 +459,9 @@ public class ViewerScript : MonoBehaviour
 
         for (int i = 0; i < 10; i++)
         {
-            siteKey.Add(Random.Range(0, 95));
-            usernameKey.Add(Random.Range(0, 95));
-            passwordKey.Add(Random.Range(0, 95));
+            siteKey.Add(Random.Range(0, 93));
+            usernameKey.Add(Random.Range(0, 93));
+            passwordKey.Add(Random.Range(0, 93));
         }
 
         for (int k = 0; k < passwordKey.Count; k++)
@@ -544,12 +544,11 @@ public class ViewerScript : MonoBehaviour
         }
 
         // Storage of encrypted data
-        // Delete entire record from stored data
         string debugString = "Site: " + site + " Name: " + username + " Pass: " + password;
         Debug.Log (debugString);
         debugString = "Site: " + new string(site)+ " Name: " + new string(username) + " Pass: " + new string(password);
         Debug.Log(debugString);
-        //sqlite.AddNewEntry(new string(site), sKey, new string(username), uKey, new string(password), pKey);
+        sqlite.AddNewEntry(new string(site), sKey, new string(username), uKey, new string(password), pKey);
     }
 
 

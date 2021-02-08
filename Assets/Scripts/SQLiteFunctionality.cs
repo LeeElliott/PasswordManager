@@ -57,7 +57,7 @@ public class SQLiteFunctionality : MonoBehaviour
 
         // Insert values in table
         IDbCommand cmnd = dbcon.CreateCommand();
-        cmnd.CommandText = "INSERT INTO StorageTable" + " ( " +
+        cmnd.CommandText = string.Format("INSERT INTO StorageTable ( " +
                         "ColumnOne, " +
                         "ColumnTwo, " +
                         "ColumnThree, " +
@@ -65,13 +65,8 @@ public class SQLiteFunctionality : MonoBehaviour
                         "ColumnFive, " +
                         "ColumnSix ) "
 
-                        + "VALUES ( '"
-                        + s + "', '"
-                        + sK + "', '"
-                        + u + "', '"
-                        + uK + "', '"
-                        + p + "', '"
-                        + pK + "' )";
+                        + "VALUES (\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\")",
+                        s, sK, u, uK, p, pK);
         cmnd.ExecuteNonQuery();
 
         // Close connection

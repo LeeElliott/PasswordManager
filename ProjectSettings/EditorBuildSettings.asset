@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Decoy.unity
+    guid: df50a81c622a8f14fa6480315dec5cc1
+  - enabled: 1
     path: Assets/Scenes/Login.unity
     guid: 83df858fe17fd2447a9facd1edee50bb
   - enabled: 1
@@ -15,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Scenes/ListViewer.unity
     guid: d6bc7fbfc246c4244b8dcc4f655f5307
   - enabled: 0
-    path: Assets/Scenes/AddEntry.unity
+    path: 
     guid: b5c744f85944bb942833785b6e0319ba
   - enabled: 0
     path: 

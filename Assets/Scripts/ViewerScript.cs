@@ -17,6 +17,8 @@ public class ViewerScript : MonoBehaviour
     // List view objects
     public Transform scrollView;
     public GameObject itemButton;
+    public GameObject addNewButton;
+    public Transform viewport;
 
     // Item view variables
     int currentID;
@@ -66,19 +68,20 @@ public class ViewerScript : MonoBehaviour
     };
 
     /* Ordered list of special characters
-     * 
-     * 
-     * 
+     * ' ', '!', '#', '$', '%', '&', '(', ')', '*', '+',
+     * ',', '-', '.', '/', ':', ';', '<', '=', '>', '?',
+     * '@', '[', '\', ']', '^', '_', '{', '|', '}', '~', '£'
      */
     public char[] specials = new char[] {
-        (char)0x20, (char)0x21, (char)0x23, (char)0x24, (char)0x25, (char)0x26, (char)0x28, (char)0x29, (char)0x2A,
-        (char)0x2B, (char)0x2C, (char)0x2D, (char)0x2E, (char)0x2F, (char)0x3A, (char)0x3B, (char)0x3C, (char)0x3D, (char)0x3E, (char)0x3F,
+        (char)0x20, (char)0x21, (char)0x23, (char)0x24, (char)0x25, (char)0x26, (char)0x28, (char)0x29, (char)0x2A, (char)0x2B,
+        (char)0x2C, (char)0x2D, (char)0x2E, (char)0x2F, (char)0x3A, (char)0x3B, (char)0x3C, (char)0x3D, (char)0x3E, (char)0x3F,
         (char)0x40, (char)0x5B, (char)0x5C, (char)0x5D, (char)0x5E, (char)0x5F, (char)0x7B, (char)0x7C, (char)0x7D, (char)0x7E, (char)0xA3
     };
 
     // Use this for initialization
     void Start()
     {
+        Debug.Log(Application.persistentDataPath);
         sqlite = GetComponent<SQLiteFunctionality>();
         sqlite.OnStart();
 
@@ -100,8 +103,13 @@ public class ViewerScript : MonoBehaviour
 
     private void FillList()
     {
+        // Reset anchor
+        viewport.GetComponent<RectTransform>().anchorMin = new Vector2(1, 0);
+        viewport.GetComponent<RectTransform>().anchorMax = new Vector2(0, 1);
+        viewport.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
+
         // Fill list
-        for (int i = 0; i < sqlite.GetRowCount(); i++)
+        for (int i = 1; i < sqlite.GetRowCount(); i++)
         {
             GameObject button;
 
@@ -110,11 +118,14 @@ public class ViewerScript : MonoBehaviour
             button.transform.SetParent(scrollView);
 
             // Change text of button
-            button.transform.GetChild(0).GetComponent<Text>().text = DecryptData(sqlite.LoadList(i)[0], DecodeKey(sqlite.LoadList(i)[1]));
-            button.transform.GetChild(1).GetComponent<Text>().text = DecryptData(sqlite.LoadList(i)[2], DecodeKey(sqlite.LoadList(i)[3]));
+            button.transform.GetChild(0).GetComponent<Text>().text = sqlite.LoadList(i)[0];//DecryptData(sqlite.LoadList(i)[0], DecodeKey(sqlite.LoadList(i)[1]));
+            button.transform.GetChild(1).GetComponent<Text>().text = sqlite.LoadList(i)[2];//DecryptData(sqlite.LoadList(i)[2], DecodeKey(sqlite.LoadList(i)[3]));
 
             button.GetComponent<ListButtonScript>().setID(i);
         }
+
+        // Move add button to end of list
+        addNewButton.gameObject.transform.SetAsLastSibling();
     }
 
     // Strength check
@@ -159,19 +170,31 @@ public class ViewerScript : MonoBehaviour
         return score;
     }
 
-    // Button Events
+    /* 
+     * Button Events
+     */
+
+    /*
+     * Return to main menu
+     */
     public void MenuClicked()
     {
         // Return to menu
         SceneManager.LoadScene("Menu");
     }
 
+    /*
+     * Display item creation
+     */
     public void NewEntryClicked()
     {
         listView.gameObject.SetActive(false);
         newItem.gameObject.SetActive(true);
     }
 
+    /*
+     * Display selected data
+     */
     public void SelectionClicked(int i)
     {
         listView.gameObject.SetActive(false);
@@ -186,6 +209,9 @@ public class ViewerScript : MonoBehaviour
         passText.text = sqlite.LookupSingle(currentID, 4);
     }
 
+    /*
+     * Return to list view
+     */
     public void BackClicked()
     {
         // Return to list view
@@ -193,6 +219,9 @@ public class ViewerScript : MonoBehaviour
         FillList();
     }
 
+    /*
+     * Display password change menu
+     */
     public void ChangeClicked()
     {
         // Open floating password generation panel 
@@ -200,6 +229,9 @@ public class ViewerScript : MonoBehaviour
         changePass.gameObject.SetActive(true);
     }
 
+    /*
+     * Generate a password
+     */
     public void GenerateClicked()
     {
         // Extract text from input field
@@ -424,6 +456,9 @@ public class ViewerScript : MonoBehaviour
         strengthSlider.value = strength;
     }
 
+    /*
+     * Save new password
+     */
     public void AcceptClicked()
     {
         // Store the generated password
@@ -436,6 +471,9 @@ public class ViewerScript : MonoBehaviour
         changePass.gameObject.SetActive(false);
     }
 
+    /*
+     * Delete selected record
+     */
     public void DeleteClicked()
     {
         // Delete entire record from stored data
@@ -445,14 +483,17 @@ public class ViewerScript : MonoBehaviour
         sqlite.RemoveEntry(currentSite, currentAccount);
     }
 
+    /*
+     * New entry input block
+     */
     public void AddEntryClicked()
     {
         // Collect input data from input fields
-        char[] site = siteInputField.text.ToCharArray();
-        char[] username = usernameInputField.text.ToCharArray();
-        char[] password = passwordInputField.text.ToCharArray();
+        string site = siteInputField.text;
+        string username = usernameInputField.text;
+        string password = passwordInputField.text;
 
-        // Encryption
+        // Encryption keys
         List<int> siteKey = new List<int>();
         List<int> usernameKey = new List<int>();
         List<int> passwordKey = new List<int>();
@@ -464,95 +505,30 @@ public class ViewerScript : MonoBehaviour
             passwordKey.Add(Random.Range(0, 93));
         }
 
-        for (int k = 0; k < passwordKey.Count; k++)
-        {
-            for (int j = 0; j < site.Length; j++)
-            {
-                // Site encryption
-                for (int i = 0; i < alphabet.Length; i++)
-                {
-                    if (site[j] == alphabet[i])
-                    {
-                        // Shift along alphabet array
-                        if (i + siteKey[k] < alphabet.Length)
-                        {
-                            // Store char from new position
-                            site[j] = (alphabet[i + siteKey[k]]);
-                        }
-                        else
-                        {
-                            int modifier = (i + siteKey[k]) - alphabet.Length;
+        // Encrypt Data
+        string eSite = EncryptData(site, siteKey);
+        string eUsername = EncryptData(username, usernameKey);
+        string ePassword = EncryptData(password, passwordKey);
 
-                            site[j] = (alphabet[modifier]);
-                        }
-                    }
-                }                
-            }
-            for (int j = 0; j < username.Length; j++)
-            {
-                // username encryption
-                for (int i = 0; i < alphabet.Length; i++)
-                {
-                    if (username[j] == alphabet[i])
-                    {
-                        // Shift along alphabet array
-                        if (i + usernameKey[k] < alphabet.Length)
-                        {
-                            // Store char from new position
-                            username[j] = (alphabet[i + usernameKey[k]]);
-                        }
-                        else
-                        {
-                            int modifier = (i + usernameKey[k]) - alphabet.Length;
-
-                            username[j] = (alphabet[modifier]);
-                        }
-                    }
-                }
-            }
-            for (int j = 0; j < password.Length; j++)
-            {
-                // Password encryption
-                for (int i = 0; i < alphabet.Length; i++)
-                {
-                    if (password[j] == alphabet[i])
-                    {
-                        // Shift along alphabet array
-                        if (i + passwordKey[k] < alphabet.Length)
-                        {
-                            // Store char from new position
-                            password[j] = (alphabet[i + passwordKey[k]]);
-                        }
-                        else
-                        {
-                            int modifier = (i + passwordKey[k]) - alphabet.Length;
-
-                            password[j] = (alphabet[modifier]);
-                        }
-                    }
-                }
-            }
-        }
-
-        // Conversion of key data
-        string sKey = "";   string uKey = "";   string pKey = "";
-        for (int i = 0; i < siteKey.Count; i++)
-        {
-            sKey += alphabet[siteKey[i]];
-            uKey += alphabet[usernameKey[i]];
-            pKey += alphabet[passwordKey[i]];
-        }
+        // Encode keys
+        string sKey = EncodeKey(siteKey);
+        string uKey = EncodeKey(usernameKey);
+        string pKey = EncodeKey(passwordKey);
 
         // Storage of encrypted data
         string debugString = "Site: " + site + " Name: " + username + " Pass: " + password;
         Debug.Log (debugString);
-        debugString = "Site: " + new string(site)+ " Name: " + new string(username) + " Pass: " + new string(password);
+        debugString = "Site: " + eSite + " Name: " + eUsername + " Pass: " + ePassword;
         Debug.Log(debugString);
-        sqlite.AddNewEntry(new string(site), sKey, new string(username), uKey, new string(password), pKey);
+        sqlite.AddNewEntry(site, sKey, username, uKey, password, pKey);
+        //sqlite.AddNewEntry(eSite, sKey, eUsername, uKey, ePassword, pKey);
     }
 
 
 
+    /*
+     * Add more numerical characters to password
+     */
     private void AddNumbers(string s)
     {
         for (int i = 0; i < s.Length; i++)
@@ -580,6 +556,9 @@ public class ViewerScript : MonoBehaviour
         }
     }
 
+    /*
+     * Add more special characters to password
+     */
     private void AddSpecials(string s)
     {
         for (int i = 0; i < s.Length; i++)
@@ -617,6 +596,9 @@ public class ViewerScript : MonoBehaviour
         }
     }
 
+    /*
+     * Check that there is at least one numerical character
+     */
     private bool ContainsNumbers(string s)
     {
         for (int i = 0; i < s.Length; i++)
@@ -630,6 +612,9 @@ public class ViewerScript : MonoBehaviour
         return false;
     }
 
+    /*
+     * Check that there is at least one special character
+     */
     private bool ContainsSpecials(string s)
     {
         for (int i = 0; i < s.Length; i++)
@@ -646,6 +631,10 @@ public class ViewerScript : MonoBehaviour
         return false;
     }
 
+
+    /*
+     * Encryption of data
+     */
     private string EncodeKey(List<int> key)
     {
         string eKey = "";
@@ -672,7 +661,7 @@ public class ViewerScript : MonoBehaviour
     {
         int dataLength = data.Length;
         int iterations = key.Count;
-        string eData = "";
+        char[] eData = data.ToCharArray();
 
         for (int i = 0; i < iterations; i++)
         {
@@ -684,18 +673,18 @@ public class ViewerScript : MonoBehaviour
                     {
                         if (k + key[i] < (alphabet.Length - 1))
                         {
-                            eData += alphabet[k + key[i]];
+                            eData[j] = alphabet[k + key[i]];
                         }
                         else
                         {
-                            eData += alphabet[k + key[i] - alphabet.Length];
+                            eData[j] = alphabet[k + key[i] - alphabet.Length];
                         }
                     }
                 }
             }
         }
 
-        return eData;
+        return eData.ToString();
     }
     private string DecryptData(string data, List<int> key)
     {

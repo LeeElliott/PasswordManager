@@ -90,7 +90,7 @@ MonoBehaviour:
     height: 30
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
-  m_LastLoadedLayoutName: Mobile
+  m_LastLoadedLayoutName: 
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -117,7 +117,7 @@ MonoBehaviour:
   m_MinSize: {x: 1121, y: 271}
   m_MaxSize: {x: 26016, y: 10021}
   vertical: 0
-  controlID: 414
+  controlID: 60
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -268,26 +268,26 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 2414faffe814faffe215faffec15faff0616faff0e16faff6c19faff281bfaff5a1dfaffdc23faff0c26faff18aaffff82e5ffff00000000fc26000054270000222800006a28000080280000542900009a290000
+    m_ExpandedIDs: 5c76f4ff1834f5ff605ef5ff2871f5ffb281f5fffa8bf5fffe8cf5ffbc92f5ff9a98f5ff6caff5ff06b2f5ff52b8f5ff663bf6ff2e3cf6ff0a3df6ff103df6ff163df6ff263df6ff5e5cf6ff265df6ff025ef6ff085ef6ff0e5ef6ff1e5ef6ff2488f6ffe488f6ffce89f6ffe289f6fff689f6ff148af6ff7e19f9ffda48f9fff0adf9ff1afcffff00000000602700005628000092280000f02800003e29000054290000ba290000c8290000f8290000122a0000b2460000e0460000684e00008e4f000042630000d2630000f263000068640000bc6500005a6e0000ca6e0000187a00003e7b0000b898000006a1000034a100002aa50000e2a5000058aa0000e0aa00007eab0000d0ab000084ac0000d2ac0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: Specials
-      m_OriginalName: Specials
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 10676
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 7}
     m_SearchString: 
   m_ExpandedScenes:
-  - Decoy
+  - ListViewer
   m_CurrenRootInstanceID: 0
   m_Locked: 0
   m_CurrentSortingName: TransformSorting
@@ -362,18 +362,18 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Scenes
+    - Assets/Prefabs
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scenes
+  - Assets/Prefabs
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Lee\Documents\GitHub\PasswordManager
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 9a260000
-    m_LastClickedID: 9882
+    m_SelectedIDs: b0260000
+    m_LastClickedID: 9904
     m_ExpandedIDs: 000000008826000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -402,7 +402,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000008826000000ca9a3bffffff7f
+    m_ExpandedIDs: 0000000088260000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -446,7 +446,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 0}
+      m_ClientGUIView: {fileID: 8}
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
       m_InstanceID: 0
@@ -560,14 +560,14 @@ MonoBehaviour:
     width: 342
     height: 710
   m_SceneLighting: 1
-  lastFramingTime: 2543.9004105
+  lastFramingTime: 1799.696712
   m_2DMode: 1
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 161.27222, y: 330.06946, z: 0}
+    m_Target: {x: 187.94571, y: 360.57135, z: -10}
     speed: 2
-    m_Value: {x: 161.27222, y: 330.06946, z: 0}
+    m_Value: {x: 187.94571, y: 360.57135, z: -10}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -594,9 +594,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 138.64494
+    m_Target: 445.85428
     speed: 2
-    m_Value: 138.64494
+    m_Value: 445.85428
   m_Ortho:
     m_Target: 1
     speed: 2

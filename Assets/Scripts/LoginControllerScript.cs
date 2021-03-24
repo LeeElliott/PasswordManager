@@ -6,7 +6,15 @@ using UnityEngine.SceneManagement;
 
 public class LoginControllerScript : MonoBehaviour
 {
+    SQLiteFunctionality sqlite;
+
     public InputField inputField;
+
+    void Start()
+    {
+        sqlite = GetComponent<SQLiteFunctionality>();
+        sqlite.OnStart();
+    }
 
     public void LoginClicked()
     {
@@ -33,8 +41,8 @@ public class LoginControllerScript : MonoBehaviour
         else if ( storedPassword == "NotSet")
         {
             // Set stored password
-
-
+            sqlite.AddNewEntry("MemorySaver", "m[/V}", "Anonymous", "[&-3", a, "[?!V");
+                                                                     
             // Check passed
             return true;
         }

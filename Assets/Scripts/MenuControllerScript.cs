@@ -10,4 +10,9 @@ public class MenuControllerScript : MonoBehaviour {
         // Initialise the list viewer
         SceneManager.LoadScene("ListViewer");
     }
+
+    public void OptionsClicked()
+    {
+        SceneManager.LoadScene("Options");
+    }
 }

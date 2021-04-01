@@ -118,8 +118,8 @@ public class ViewerScript : MonoBehaviour
             button.transform.SetParent(scrollView);
 
             // Change text of button
-            button.transform.GetChild(0).GetComponent<Text>().text = sqlite.LoadList(i)[0];//DecryptData(sqlite.LoadList(i)[0], DecodeKey(sqlite.LoadList(i)[1]));
-            button.transform.GetChild(1).GetComponent<Text>().text = sqlite.LoadList(i)[2];//DecryptData(sqlite.LoadList(i)[2], DecodeKey(sqlite.LoadList(i)[3]));
+            button.transform.GetChild(0).GetComponent<Text>().text = DecryptData(sqlite.LoadList(i)[0], DecodeKey(sqlite.LoadList(i)[1]));
+            button.transform.GetChild(1).GetComponent<Text>().text = DecryptData(sqlite.LoadList(i)[2], DecodeKey(sqlite.LoadList(i)[3]));
 
             button.GetComponent<ListButtonScript>().setID(i);
         }
@@ -520,8 +520,8 @@ public class ViewerScript : MonoBehaviour
         Debug.Log (debugString);
         debugString = "Site: " + eSite + " Name: " + eUsername + " Pass: " + ePassword;
         Debug.Log(debugString);
-        sqlite.AddNewEntry(site, sKey, username, uKey, password, pKey);
-        //sqlite.AddNewEntry(eSite, sKey, eUsername, uKey, ePassword, pKey);
+        //sqlite.AddNewEntry(site, sKey, username, uKey, password, pKey);
+        sqlite.AddNewEntry(eSite, sKey, eUsername, uKey, ePassword, pKey);
     }
 
 
@@ -662,6 +662,7 @@ public class ViewerScript : MonoBehaviour
         int dataLength = data.Length;
         int iterations = key.Count;
         char[] eData = data.ToCharArray();
+        int alphabetLength = alphabet.Length - 1;
 
         for (int i = 0; i < iterations; i++)
         {
@@ -669,22 +670,16 @@ public class ViewerScript : MonoBehaviour
             {
                 for (int k = 0; k < alphabet.Length; k++)
                 {
-                    if (alphabet[k] == data[j])
+                    if (alphabet[k] == eData[j])
                     {
-                        if (k + key[i] < (alphabet.Length - 1))
-                        {
-                            eData[j] = alphabet[k + key[i]];
-                        }
-                        else
-                        {
-                            eData[j] = alphabet[k + key[i] - alphabet.Length];
-                        }
+                        eData[j] = alphabet[((k + key[i]) + alphabetLength) % alphabetLength];
+                        break;
                     }
                 }
             }
         }
 
-        return eData.ToString();
+        return new string(eData);
     }
     private string DecryptData(string data, List<int> key)
     {
@@ -693,7 +688,8 @@ public class ViewerScript : MonoBehaviour
 
         int dataLength = data.Length;
         int iterations = key.Count;
-        string dData = "";
+        char[] dData = data.ToCharArray();
+        int alphabetLength = alphabet.Length - 1;
 
         for (int i = 0; i < iterations; i++)
         {
@@ -701,21 +697,15 @@ public class ViewerScript : MonoBehaviour
             {
                 for (int k = 0; k < alphabet.Length; k++)
                 {
-                    if (alphabet[k] == data[j])
+                    if (alphabet[k] == dData[j])
                     {
-                        if (k - key[i] > 0)
-                        {
-                            dData += alphabet[k - key[i]];
-                        }
-                        else
-                        {
-                            dData += alphabet[alphabet.Length + (k - key[i])];
-                        }
+                        dData[j] = alphabet[((k - dKey[i]) + alphabetLength) % alphabetLength];
+                        break;
                     }
                 }
             }
         }
 
-        return dData;
+        return new string(dData);
     }
 }

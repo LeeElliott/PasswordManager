@@ -109,7 +109,7 @@ bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.Audi
 c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.VR.WSA.SpatialMappingCollider
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.VR.WSA.SpatialMappingRenderer
 c2532d8b99d8c9cdafcdaf3f7be046c5 Assembly-CSharp.dll:.InitialController
-9e6e75796ce6efc3ac2ee07610bf39b9 Assembly-CSharp.dll:.LoginControllerScript
+e0bba497225a1ff6774fe38f5e89e584 Assembly-CSharp.dll:.LoginControllerScript
 32e8fe00b63ed946490b898f6024a2f2 Facebook.Unity.Settings.dll:Facebook.Unity.Settings.FacebookSettings
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.MenuControllerScript
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
@@ -138,3 +138,4 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.VR.WSA.Spa
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.VR.WSA.SpatialMappingRenderer
 b55034d5c907ff42a2995814ee6967dc Assembly-CSharp.dll:.ViewerScript
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.ListButtonScript
+3d0235718c447a386ca494f288e8c729 Assembly-CSharp.dll:.OptionsScript

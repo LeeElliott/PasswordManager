@@ -464,7 +464,8 @@ public class ViewerScript : MonoBehaviour
         // Store the generated password
         string site = sqlite.LookupSingle(currentID, 0);
         string user = sqlite.LookupSingle(currentID, 2);
-        sqlite.UpdateEntry(site, user, proposedText.text);
+        List<int> key = DecodeKey(sqlite.LookupSingle(currentID, 5));
+        sqlite.UpdateEntry(site, user, EncryptData(proposedText.text, key));
 
         // Switch back to item view
         itemView.gameObject.SetActive(true);
@@ -516,11 +517,6 @@ public class ViewerScript : MonoBehaviour
         string pKey = EncodeKey(passwordKey);
 
         // Storage of encrypted data
-        string debugString = "Site: " + site + " Name: " + username + " Pass: " + password;
-        Debug.Log (debugString);
-        debugString = "Site: " + eSite + " Name: " + eUsername + " Pass: " + ePassword;
-        Debug.Log(debugString);
-        //sqlite.AddNewEntry(site, sKey, username, uKey, password, pKey);
         sqlite.AddNewEntry(eSite, sKey, eUsername, uKey, ePassword, pKey);
     }
 

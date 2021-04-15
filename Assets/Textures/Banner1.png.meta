@@ -1,12 +1,15 @@
 fileFormatVersion: 2
 guid: e9061964ec3c4b64eb7766113231ecb2
-timeCreated: 1615674758
+timeCreated: 1618170909
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Banner1_0
     21300002: Banner1_1
     21300004: Banner1_2
+    21300006: Banner1_3
+    21300008: Banner1_4
+    21300010: Banner1_5
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -90,7 +93,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 600
+        y: 1500
         width: 1200
         height: 300
       alignment: 0
@@ -104,7 +107,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 300
+        y: 1192
         width: 1200
         height: 300
       alignment: 0
@@ -115,6 +118,48 @@ TextureImporter:
       tessellationDetail: 0
     - serializedVersion: 2
       name: Banner1_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 900
+        width: 1200
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Banner1_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 600
+        width: 1200
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Banner1_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 300
+        width: 1200
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Banner1_5
       rect:
         serializedVersion: 2
         x: 0

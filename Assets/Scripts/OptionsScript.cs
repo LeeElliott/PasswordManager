@@ -53,6 +53,7 @@ public class OptionsScript : MonoBehaviour
     public void DestroyClicked()
     {
         sqlite.LastResort();
+        SceneManager.LoadScene("Decoy");
     }
     public void SubmitClicked()
     {

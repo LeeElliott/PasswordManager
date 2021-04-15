@@ -37,11 +37,17 @@ public class LoginControllerScript : MonoBehaviour
     public InputField signupPasswordField;
     public Transform login;
     public Transform signup;
+    public Transform warning;
+    public Text warningText;
+
+    private float timeStart = -99;
+    private int attemptCount = 3;
 
     void Start()
     {
         sqlite = GetComponent<SQLiteFunctionality>();
         sqlite.OnStart();
+        warning.gameObject.SetActive(false);
 
         // Check if account exists
         if (sqlite.GetRowCount() > 0)
@@ -58,6 +64,19 @@ public class LoginControllerScript : MonoBehaviour
         }
     }
 
+    // Update is called once per frame
+    void Update()
+    {
+        if (Time.time < timeStart + 5)
+        {
+            warning.gameObject.SetActive(true);
+        }
+        else
+        {
+            warning.gameObject.SetActive(false);
+        }
+    }
+
     public void LoginClicked()
     {
         string enterredUsername = loginUserField.text;
@@ -67,6 +86,15 @@ public class LoginControllerScript : MonoBehaviour
         {
             // Login passed initialise menu scene
             SceneManager.LoadScene("Menu");
+        }
+        else
+        {
+            timeStart = Time.time;
+
+            string warningString = "The entered username or password is incorrect. Please try again.";
+            warningString += "\nAttempts remaining " + attemptCount + " / 3.";
+            warningText.text = warningString;
+            attemptCount--;
         }
     }
 
@@ -81,6 +109,7 @@ public class LoginControllerScript : MonoBehaviour
 
         // Set stored password
         sqlite.AddNewEntry(accountName, EncodeKey(accKey), enterredUsername, EncodeKey(userKey), enterredPassword, EncodeKey(passKey));
+        SceneManager.LoadScene("Menu");
     }
 
     bool PasswordCorrect(string user, string pass)
@@ -118,7 +147,13 @@ public class LoginControllerScript : MonoBehaviour
 
         for (int i = 0; i < key.Length; i++)
         {
-            dKey.Add((int)key[i]);
+            for (int j = 0; j < alphabet.Length; j++)
+            {
+                if (alphabet[j] == key[i])
+                {
+                    dKey.Add(j);
+                }
+            }
         }
 
         return dKey;

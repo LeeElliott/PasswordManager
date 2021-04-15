@@ -14,6 +14,9 @@ public class ViewerScript : MonoBehaviour
     public Transform changePass;
     public Transform newItem;
 
+    // Message boxes
+    public Transform deleteMessage;
+
     // List view objects
     public Transform scrollView;
     public GameObject itemButton;
@@ -43,6 +46,9 @@ public class ViewerScript : MonoBehaviour
     public InputField siteInputField;
     public InputField usernameInputField;
     public InputField passwordInputField;
+    public InputField sampleInputField;
+
+    private float timeStart = -99;
 
     /* Randomized list of characters
      * [8;!/:G&g ?
@@ -99,6 +105,15 @@ public class ViewerScript : MonoBehaviour
     {
         minText.text = minSlider.value.ToString();
         maxText.text = maxSlider.value.ToString();
+
+        if (Time.time < timeStart + 5)
+        {
+            deleteMessage.gameObject.SetActive(true);
+        }
+        else
+        {
+            deleteMessage.gameObject.SetActive(false);
+        }
     }
 
     private void FillList()
@@ -204,9 +219,9 @@ public class ViewerScript : MonoBehaviour
         currentID = i;
 
         // Fill boxes
-        siteText.text = sqlite.LookupSingle(currentID, 0);
-        userText.text = sqlite.LookupSingle(currentID, 2);
-        passText.text = sqlite.LookupSingle(currentID, 4);
+        siteText.text = DecryptData(sqlite.LookupSingle(currentID, 0), DecodeKey(sqlite.LookupSingle(currentID, 1)));
+        userText.text = DecryptData(sqlite.LookupSingle(currentID, 2), DecodeKey(sqlite.LookupSingle(currentID, 3)));
+        passText.text = DecryptData(sqlite.LookupSingle(currentID, 4), DecodeKey(sqlite.LookupSingle(currentID, 5)));
     }
 
     /*
@@ -455,6 +470,173 @@ public class ViewerScript : MonoBehaviour
         // Update strength meter
         strengthSlider.value = strength;
     }
+    public void NewGenerateClicked()
+    {
+        // Extract text from input field
+        string enterredString = sampleInputField.text;
+        string newPassword = "";
+
+        if (enterredString != "")
+        {
+            for (int i = 0; i < enterredString.Length; i++)
+            {
+                // Only accept the first char from every word
+                if (i == 0 || enterredString[i - 1] == ' ')
+                {
+                    // Create string to check for numeral words
+                    string partial = "";
+
+                    for (int j = 0; j < enterredString.Length - i; j++)
+                    {
+                        if (enterredString[i + j] != ' ')
+                        {
+                            partial += char.ToLower(enterredString[i + j]);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                    if (partial == "one" || partial == "won")
+                    {
+                        newPassword += '1';
+                    }
+                    else if (partial == "to" || partial == "too" || partial == "two")
+                    {
+                        newPassword += '2';
+                    }
+                    else if (partial == "three")
+                    {
+                        newPassword += '3';
+                    }
+                    else if (partial == "for" || partial == "fore" || partial == "four")
+                    {
+                        newPassword += '4';
+                    }
+                    else if (partial == "five")
+                    {
+                        newPassword += '5';
+                    }
+                    else if (partial == "six" || partial == "sex")
+                    {
+                        newPassword += '6';
+                    }
+                    else if (partial == "seven")
+                    {
+                        newPassword += '7';
+                    }
+                    else if (partial == "ate" || partial == "eight")
+                    {
+                        newPassword += '8';
+                    }
+                    else if (partial == "nein" || partial == "nine")
+                    {
+                        newPassword += '9';
+                    }
+                    else if (partial == "zero" || partial == "nought" || partial == "not" || partial == "knot")
+                    {
+                        newPassword += '0';
+                    }
+                    else
+                    {
+                        int switchChance = Random.Range(0, 4);
+
+                        switch (switchChance)
+                        {
+                            // Special character swap
+                            case 3:
+                                if (enterredString[i] == 'a' || enterredString[i] == 'A')
+                                {
+                                    newPassword += '@';
+                                }
+                                else if (enterredString[i] == 'e' || enterredString[i] == 'E')
+                                {
+                                    newPassword += '£';
+                                }
+                                else if (enterredString[i] == 'i' || enterredString[i] == 'I')
+                                {
+                                    newPassword += '!';
+                                }
+                                else if (enterredString[i] == 's' || enterredString[i] == 'S')
+                                {
+                                    newPassword += '$';
+                                }
+                                else if (enterredString[i] == 'v' || enterredString[i] == 'V')
+                                {
+                                    newPassword += '^';
+                                }
+                                else if (enterredString[i] == 'x' || enterredString[i] == 'X')
+                                {
+                                    newPassword += '*';
+                                }
+                                else
+                                {
+                                    newPassword += enterredString[i];
+                                }
+                                break;
+                            // Numerical char swap
+                            case 2:
+                                if (enterredString[i] == 'i' || enterredString[i] == 'I')
+                                {
+                                    newPassword += '1';
+                                }
+                                else if (enterredString[i] == 'e' || enterredString[i] == 'E')
+                                {
+                                    newPassword += '3';
+                                }
+                                else if (enterredString[i] == 'a' || enterredString[i] == 'A')
+                                {
+                                    newPassword += '4';
+                                }
+                                else if (enterredString[i] == 's' || enterredString[i] == 'S')
+                                {
+                                    newPassword += '5';
+                                }
+                                else if (enterredString[i] == 'o' || enterredString[i] == 'O')
+                                {
+                                    newPassword += '0';
+                                }
+                                else
+                                {
+                                    newPassword += enterredString[i];
+                                }
+                                break;
+                            // Change case
+                            case 1:
+                                if (char.IsUpper(enterredString[i]))
+                                {
+                                    newPassword += char.ToLower(enterredString[i]);
+                                }
+                                else
+                                {
+                                    newPassword += char.ToUpper(enterredString[i]);
+                                }
+                                break;
+                            // Default is no modifier
+                            default:
+                                newPassword += enterredString[i];
+                                break;
+                        }
+                    }
+                }
+            }            
+        }
+        else
+        {
+            int passLength = Random.Range(8, 16);
+
+            for (int i = 0; i < passLength; i++)
+            {
+                char nextChar = new char();
+                nextChar = alphabet[Random.Range(0, 93)];
+
+                newPassword += nextChar;
+            }
+        }
+
+        passwordInputField.text = newPassword;
+    }
 
     /*
      * Save new password
@@ -479,9 +661,13 @@ public class ViewerScript : MonoBehaviour
     {
         // Delete entire record from stored data
         
-        string currentSite = DecryptData(sqlite.LookupSingle(currentID, 0), DecodeKey(sqlite.LookupSingle(currentID, 1)));
-        string currentAccount = DecryptData(sqlite.LookupSingle(currentID, 2), DecodeKey(sqlite.LookupSingle(currentID, 3)));
+        string currentSite = sqlite.LookupSingle(currentID, 0);
+        string currentAccount = sqlite.LookupSingle(currentID, 2);
         sqlite.RemoveEntry(currentSite, currentAccount);
+
+        timeStart = Time.time;
+        itemView.gameObject.SetActive(false);
+        listView.gameObject.SetActive(true);
     }
 
     /*
@@ -648,7 +834,13 @@ public class ViewerScript : MonoBehaviour
 
         for (int i = 0; i < key.Length; i++)
         {
-            dKey.Add((int)key[i]);
+            for (int j = 0; j < alphabet.Length; j++)
+            {
+                if (alphabet[j] == key[i])
+                {
+                    dKey.Add(j);
+                }
+            }
         }
 
         return dKey;

@@ -166,10 +166,10 @@ public class SQLiteFunctionality : MonoBehaviour
         dbcon.Open();
 
         IDbCommand dbcmd = dbcon.CreateCommand();
-        dbcmd.CommandText = "DELETE FROM StorageTable WHERE ColumnOne = " + columnOne + " AND ColumnThree = " + columnThree;
+        dbcmd.CommandText = "DELETE FROM StorageTable WHERE ColumnOne = '" + columnOne + "' AND ColumnThree = '" + columnThree + "'";
         dbcmd.ExecuteNonQuery();
 
-        // Close connection
+        // Close connection        
         dbcon.Close();
     }
 

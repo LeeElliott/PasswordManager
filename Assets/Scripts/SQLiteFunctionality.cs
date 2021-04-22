@@ -13,7 +13,7 @@ public class SQLiteFunctionality : MonoBehaviour
     // Use this for initialization
     public void OnStart()
     {
-        connection = "URI=file:" + Application.persistentDataPath + "/" + "StorageDatabase";
+        connection = "URI=file:" + Application.persistentDataPath + "/" + "StorageDatabase.FILE";
         dbcon = new SqliteConnection(connection);
 
         OpenDatabase();

@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using SimpleFileBrowser;
 
 public class OptionsScript : MonoBehaviour
 {
@@ -73,6 +75,29 @@ public class OptionsScript : MonoBehaviour
     public void MenuClicked()
     {
         SceneManager.LoadScene("Menu");
+    }
+    public void ImportClicked()
+    {
+        SimpleFileBrowser.FileBrowser.SetFilters(false, new SimpleFileBrowser.FileBrowser.Filter(
+            "Databases", ".DB", ".DBS", ".SQL", ".SQLITE3", ".SQLITE3", ".FILE"));
+
+        SimpleFileBrowser.FileBrowser.ShowLoadDialog((paths) =>
+        {
+            string destinationPath = Path.Combine(Application.persistentDataPath, FileBrowserHelpers.GetFilename(FileBrowser.Result[0]));
+            FileBrowserHelpers.CopyFile(FileBrowser.Result[0], destinationPath);
+
+        }, null, SimpleFileBrowser.FileBrowser.PickMode.Files);
+    }
+    public void ExportClicked()
+    {
+        SimpleFileBrowser.FileBrowser.ShowLoadDialog((paths) =>
+        {
+            string sourcePath = Path.Combine(Application.persistentDataPath, "StorageDatabase.FILE");
+            string destinationDirectory = FileBrowserHelpers.GetDirectoryName(FileBrowser.Result[FileBrowser.Result.Length - 1]);
+            string destinationPath = Path.Combine(destinationDirectory, "StorageDatabase.FILE");
+            FileBrowserHelpers.CopyFile(sourcePath, destinationPath);
+
+        }, null, SimpleFileBrowser.FileBrowser.PickMode.Folders);
     }
 
     private List<int> DecodeKey(string key)

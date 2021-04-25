@@ -39,9 +39,12 @@ public class LoginControllerScript : MonoBehaviour
     public Transform signup;
     public Transform warning;
     public Text warningText;
+    public Toggle coverToggle;
 
     private float timeStart = -99;
     private int attemptCount = 3;
+    private bool loginShow = false;
+    private bool signupShow = false;
 
     void Start()
     {
@@ -74,6 +77,26 @@ public class LoginControllerScript : MonoBehaviour
         else
         {
             warning.gameObject.SetActive(false);
+        }
+
+        // Cover or show password
+        if (coverToggle.isOn)
+        {
+            loginPasswordField.GetComponent<InputField>().contentType = InputField.ContentType.Standard;
+            signupPasswordField.GetComponent<InputField>().contentType = InputField.ContentType.Standard;
+            loginPasswordField.ActivateInputField();
+            loginPasswordField.ForceLabelUpdate();
+            signupPasswordField.ActivateInputField();
+            signupPasswordField.ForceLabelUpdate();
+        }
+        else
+        {
+            loginPasswordField.GetComponent<InputField>().contentType = InputField.ContentType.Password;
+            signupPasswordField.GetComponent<InputField>().contentType = InputField.ContentType.Password;
+            loginPasswordField.ActivateInputField();
+            loginPasswordField.ForceLabelUpdate();
+            signupPasswordField.ActivateInputField();
+            signupPasswordField.ForceLabelUpdate();
         }
     }
 
@@ -208,5 +231,5 @@ public class LoginControllerScript : MonoBehaviour
         }
 
         return new string(dData);
-    }
+    }    
 }

@@ -704,6 +704,11 @@ public class ViewerScript : MonoBehaviour
 
         // Storage of encrypted data
         sqlite.AddNewEntry(eSite, sKey, eUsername, uKey, ePassword, pKey);
+
+        // Return to list view
+        newItem.gameObject.SetActive(false);
+        listView.gameObject.SetActive(true);
+        FillList();
     }
 
 

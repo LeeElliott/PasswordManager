@@ -65,6 +65,8 @@ public class LoginControllerScript : MonoBehaviour
             login.gameObject.SetActive(false);
             signup.gameObject.SetActive(true);
         }
+
+        coverToggle.onValueChanged.AddListener(delegate { ToggleClicked(); });
     }
 
     // Update is called once per frame
@@ -77,26 +79,6 @@ public class LoginControllerScript : MonoBehaviour
         else
         {
             warning.gameObject.SetActive(false);
-        }
-
-        // Cover or show password
-        if (coverToggle.isOn)
-        {
-            loginPasswordField.GetComponent<InputField>().contentType = InputField.ContentType.Standard;
-            signupPasswordField.GetComponent<InputField>().contentType = InputField.ContentType.Standard;
-            loginPasswordField.ActivateInputField();
-            loginPasswordField.ForceLabelUpdate();
-            signupPasswordField.ActivateInputField();
-            signupPasswordField.ForceLabelUpdate();
-        }
-        else
-        {
-            loginPasswordField.GetComponent<InputField>().contentType = InputField.ContentType.Password;
-            signupPasswordField.GetComponent<InputField>().contentType = InputField.ContentType.Password;
-            loginPasswordField.ActivateInputField();
-            loginPasswordField.ForceLabelUpdate();
-            signupPasswordField.ActivateInputField();
-            signupPasswordField.ForceLabelUpdate();
         }
     }
 
@@ -232,4 +214,27 @@ public class LoginControllerScript : MonoBehaviour
 
         return new string(dData);
     }    
+
+    private void ToggleClicked()
+    {
+        // Cover or show password
+        if (coverToggle.isOn)
+        {
+            loginPasswordField.GetComponent<InputField>().contentType = InputField.ContentType.Standard;
+            signupPasswordField.GetComponent<InputField>().contentType = InputField.ContentType.Standard;
+            loginPasswordField.ActivateInputField();
+            loginPasswordField.ForceLabelUpdate();
+            signupPasswordField.ActivateInputField();
+            signupPasswordField.ForceLabelUpdate();
+        }
+        else
+        {
+            loginPasswordField.GetComponent<InputField>().contentType = InputField.ContentType.Password;
+            signupPasswordField.GetComponent<InputField>().contentType = InputField.ContentType.Password;
+            loginPasswordField.ActivateInputField();
+            loginPasswordField.ForceLabelUpdate();
+            signupPasswordField.ActivateInputField();
+            signupPasswordField.ForceLabelUpdate();
+        }
+    }
 }
